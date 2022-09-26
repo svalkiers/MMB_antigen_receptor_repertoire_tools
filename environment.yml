@@ -9,3 +9,4 @@ dependencies:
   - python=3.9
   - clustcr
   - statsmodels
+  - scipy=1.9
