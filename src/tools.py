@@ -96,4 +96,38 @@ def merge_results(
     
     return merged
     
+def create_edgelist_vgene(clusters):
+    '''
+    Create tab-separated edgelist of edges with HD = 1, from a set of sequences.    
+    '''
     
+    # Set makes sure there are no dupes
+    tcrs = [(clusters.iloc[i]["junction_aa"], 
+             clusters.iloc[i]["v_call"]) for i in range(len(clusters))]
+    # tcrs = set(tcrs)
+    
+    # Hashing
+    cdr3hash = dict()
+    for tcr in tcrs:
+        cdr = tcr[0]
+        for hash in (cdr[::2], cdr[1::2]):
+            if hash not in cdr3hash:
+                cdr3hash[hash] = set()
+            cdr3hash[hash].add(tcr)
+            
+    # Generate network
+    edgelist = set()
+    for hash in cdr3hash:
+        if len(cdr3hash[hash]) >= 1:
+            for tcr1 in cdr3hash[hash]:
+                for tcr2 in cdr3hash[hash]:
+                    if tcr1 != tcr2:
+                        if tcr1[0] <= tcr2[0]:
+                            if sum(ch1 != ch2 for ch1, ch2 in zip(tcr1[0], tcr2[0])) <= 1:
+                                edgelist.add((tcr1,tcr2))
+    
+    edges = pd.DataFrame(edgelist, columns=["source", "target"])
+    for col in edges:
+        edges[col] = edges[col].apply(lambda x: "_".join(x))
+
+    return edges
