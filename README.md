@@ -13,8 +13,8 @@ Repository overview:
 │   │   ├── j_genes.tsv
 │   │   └── v_genes.tsv
 │   ├── tcrex_in
-│   │   ├── P1_0_clones
-│   │   └── P1_15_clones
+│   │   ├── P1_0
+│   │   └── P1_15
 │   └── tcrex_out
 │       ├── P1_0
 │       └── P1_15
@@ -37,7 +37,8 @@ Repository overview:
 │   └── tcrex
 │       ├── P1_0_tcrex.tsv
 │       └── P1_15_tcrex.tsv
-└── src
-    └── tools.py
+├── src
+│    └── tools.py
+└── environment.yml
 ```
 
